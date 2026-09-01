@@ -84,9 +84,19 @@ export default function SmartDialerDashboard() {
     setTheme(nextTheme);
   };
 
+  const getApiBase = () => {
+    if (process.env.NEXT_PUBLIC_API_URL) {
+      return process.env.NEXT_PUBLIC_API_URL;
+    }
+    if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+      return '';
+    }
+    return 'http://localhost:4000';
+  };
+
   const fetchTelemetry = async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/telemetry');
+      const res = await fetch(`${getApiBase()}/api/telemetry`);
       if (res.ok) {
         const data = await res.json();
         setTelemetry(data);
@@ -105,7 +115,7 @@ export default function SmartDialerDashboard() {
 
   const fetchAgents = async () => {
     try {
-      const res = await fetch('http://localhost:4000/api/agents');
+      const res = await fetch(`${getApiBase()}/api/agents`);
       if (res.ok) {
         const data = await res.json();
         setAgents(data);
@@ -134,7 +144,7 @@ export default function SmartDialerDashboard() {
     setSimulationRunning(true);
     setSimResult(null);
     try {
-      const res = await fetch('http://localhost:4000/api/simulations/run', {
+      const res = await fetch(`${getApiBase()}/api/simulations/run`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ scenario })
@@ -154,7 +164,7 @@ export default function SmartDialerDashboard() {
   const handleTriggerDialer = async () => {
     setDialingActive(true);
     try {
-      await fetch('http://localhost:4000/api/dialer/trigger', { method: 'POST' });
+      await fetch(`${getApiBase()}/api/dialer/trigger`, { method: 'POST' });
       fetchTelemetry();
     } catch (e) {
       console.log('Triggered dialer');
@@ -166,7 +176,7 @@ export default function SmartDialerDashboard() {
   const handleTriggerDropShock = async () => {
     setDropShockActive(true);
     try {
-      const res = await fetch('http://localhost:4000/api/simulations/drop-shock', { method: 'POST' });
+      const res = await fetch(`${getApiBase()}/api/simulations/drop-shock`, { method: 'POST' });
       if (res.ok) {
         const data = await res.json();
         setSimResult({ scenario: 'Shock Test', passed: true, message: data.message });
@@ -181,12 +191,13 @@ export default function SmartDialerDashboard() {
 
   const isDark = theme === 'dark';
 
+  const apiBase = getApiBase();
   const apiLinks = [
-    { title: 'Server Health Status', url: 'http://localhost:4000/api/health', desc: 'JSON server status' },
-    { title: 'Live Pacing Telemetry', url: 'http://localhost:4000/api/telemetry', desc: 'Pacing engine & safety logs' },
-    { title: 'Agent Pool State', url: 'http://localhost:4000/api/agents', desc: 'Active agents & row lock versions' },
-    { title: 'Active Call Records', url: 'http://localhost:4000/api/calls', desc: 'Call state machine DAG' },
-    { title: 'Borrower Queue', url: 'http://localhost:4000/api/borrowers', desc: 'Borrowers & legal timezone status' },
+    { title: 'Server Health Status', url: `${apiBase}/api/health`, desc: 'JSON server status' },
+    { title: 'Live Pacing Telemetry', url: `${apiBase}/api/telemetry`, desc: 'Pacing engine & safety logs' },
+    { title: 'Agent Pool State', url: `${apiBase}/api/agents`, desc: 'Active agents & row lock versions' },
+    { title: 'Active Call Records', url: `${apiBase}/api/calls`, desc: 'Call state machine DAG' },
+    { title: 'Borrower Queue', url: `${apiBase}/api/borrowers`, desc: 'Borrowers & legal timezone status' },
   ];
 
   return (
