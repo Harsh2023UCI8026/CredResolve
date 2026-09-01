@@ -14,19 +14,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const server = createServer(app);
-const wss = new WebSocketServer({ server });
+let wss: WebSocketServer | null = null;
 
 // Seed default pool data on server startup
 ScenarioSimulationHarness.initializePool(25, 200).catch(console.error);
 
-// Periodic background sweeper & telemetry broadcast
-setInterval(async () => {
-  await StaleStateSweeper.runSweep(10000);
-  broadcastTelemetry();
-}, 2000);
-
 function broadcastTelemetry() {
+  if (!wss) return;
   const payload = JSON.stringify({
     type: 'TELEMETRY_UPDATE',
     timestamp: new Date().toISOString(),
@@ -137,10 +131,21 @@ app.post('/api/dialer/trigger', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 4000;
-server.listen(PORT, () => {
-  console.log(`SmartDialer Backend Server running on port ${PORT}`);
-});
+// Only listen on port & start background timers in non-Vercel environment
+if (!process.env.VERCEL) {
+  const server = createServer(app);
+  wss = new WebSocketServer({ server });
+
+  setInterval(async () => {
+    await StaleStateSweeper.runSweep(10000);
+    broadcastTelemetry();
+  }, 2000);
+
+  const PORT = process.env.PORT || 4000;
+  server.listen(PORT, () => {
+    console.log(`SmartDialer Backend Server running on port ${PORT}`);
+  });
+}
 
 export default app;
 
