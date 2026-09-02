@@ -1,4 +1,4 @@
-import { dbStore } from '../db/store.js';
+import { dbStore } from '../db/store';
 
 export interface PacingInput {
   availableAgents: number;

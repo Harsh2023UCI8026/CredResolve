@@ -1,6 +1,6 @@
-import { dbStore } from '../db/store.js';
-import { AgentStateMachine } from '../state-machines/agentStateMachine.js';
-import { CallStateMachine } from '../state-machines/callStateMachine.js';
+import { dbStore } from '../db/store';
+import { AgentStateMachine } from '../state-machines/agentStateMachine';
+import { CallStateMachine } from '../state-machines/callStateMachine';
 
 export class StaleStateSweeper {
   /**

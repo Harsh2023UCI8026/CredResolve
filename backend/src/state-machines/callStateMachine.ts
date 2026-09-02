@@ -1,5 +1,5 @@
-import { Call, CallState, CALL_STATE_RANKS, TERMINAL_CALL_STATES } from '../types/index.js';
-import { dbStore } from '../db/store.js';
+import { Call, CallState, CALL_STATE_RANKS, TERMINAL_CALL_STATES } from '../types/index';
+import { dbStore } from '../db/store';
 
 export class CallStateMachineError extends Error {
   constructor(message: string) {

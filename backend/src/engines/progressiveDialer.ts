@@ -1,8 +1,8 @@
-import { dbStore } from '../db/store.js';
-import { AgentStateMachine } from '../state-machines/agentStateMachine.js';
-import { CallStateMachine } from '../state-machines/callStateMachine.js';
-import { Call, Borrower } from '../types/index.js';
-import { isWithinLegalDialingHours } from '../utils/timezone.js';
+import { dbStore } from '../db/store';
+import { AgentStateMachine } from '../state-machines/agentStateMachine';
+import { CallStateMachine } from '../state-machines/callStateMachine';
+import { Call, Borrower } from '../types/index';
+import { isWithinLegalDialingHours } from '../utils/timezone';
 
 export class ProgressiveDialer {
   /**

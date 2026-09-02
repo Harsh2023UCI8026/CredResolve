@@ -1,4 +1,4 @@
-import { Agent, Borrower, Call, Campaign, AgentState, CallState, CALL_STATE_RANKS } from '../types/index.js';
+import { Agent, Borrower, Call, Campaign, AgentState, CallState, CALL_STATE_RANKS } from '../types/index';
 
 /**
  * SmartDialer Transactional Database Engine

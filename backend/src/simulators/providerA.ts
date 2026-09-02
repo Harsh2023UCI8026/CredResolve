@@ -1,8 +1,8 @@
-import { Call } from '../types/index.js';
-import { CallStateMachine } from '../state-machines/callStateMachine.js';
-import { AgentStateMachine } from '../state-machines/agentStateMachine.js';
-import { dbStore } from '../db/store.js';
-import { providerACircuitBreaker } from '../fault-tolerance/circuitBreaker.js';
+import { Call } from '../types/index';
+import { CallStateMachine } from '../state-machines/callStateMachine';
+import { AgentStateMachine } from '../state-machines/agentStateMachine';
+import { dbStore } from '../db/store';
+import { providerACircuitBreaker } from '../fault-tolerance/circuitBreaker';
 
 export class ProviderASimulator {
   /**

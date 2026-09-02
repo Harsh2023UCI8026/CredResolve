@@ -1,5 +1,5 @@
-import { Agent, AgentState } from '../types/index.js';
-import { dbStore } from '../db/store.js';
+import { Agent, AgentState } from '../types/index';
+import { dbStore } from '../db/store';
 
 export class AgentStateMachineError extends Error {
   constructor(message: string) {

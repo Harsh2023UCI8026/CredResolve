@@ -1,7 +1,7 @@
-import { dbStore } from '../db/store.js';
-import { PredictiveEngine } from '../engines/predictiveEngine.js';
-import { SafetyController } from '../engines/safetyController.js';
-import { Agent, Borrower } from '../types/index.js';
+import { dbStore } from '../db/store';
+import { PredictiveEngine } from '../engines/predictiveEngine';
+import { SafetyController } from '../engines/safetyController';
+import { Agent, Borrower } from '../types/index';
 
 export interface SimulationResult {
   scenario: string;
