@@ -43,7 +43,11 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', system: 'SmartDialer Core Engine', timestamp: new Date() });
 });
 app.get('/api/agents', async (req, res) => {
-    const agents = await store_1.dbStore.getAgents();
+    let agents = await store_1.dbStore.getAgents();
+    if (agents.length === 0) {
+        await scenarioHarness_1.ScenarioSimulationHarness.initializePool(25, 200);
+        agents = await store_1.dbStore.getAgents();
+    }
     res.json(agents);
 });
 app.get('/api/calls', async (req, res) => {
@@ -51,7 +55,11 @@ app.get('/api/calls', async (req, res) => {
     res.json(calls);
 });
 app.get('/api/borrowers', async (req, res) => {
-    const borrowers = await store_1.dbStore.getBorrowers();
+    let borrowers = await store_1.dbStore.getBorrowers();
+    if (borrowers.length === 0) {
+        await scenarioHarness_1.ScenarioSimulationHarness.initializePool(25, 200);
+        borrowers = await store_1.dbStore.getBorrowers();
+    }
     res.json(borrowers);
 });
 app.get('/api/telemetry', async (req, res) => {

@@ -254,9 +254,9 @@ export default function SmartDialerDashboard() {
 
   const apiBase = getApiBase();
   const isVercelProd = typeof window !== 'undefined' && window.location.hostname.includes('vercel.app');
-  const activeBase = isVercelProd ? '' : (apiBase || 'http://localhost:4000');
+  const activeBase = isVercelProd ? window.location.origin : (apiBase || 'http://localhost:4000');
   
-  // Clean working absolute links or relative serverless endpoints
+  // Clean working absolute links for local and Vercel environments
   const apiLinks = [
     { title: 'Server Health Status', url: `${activeBase}/api/health`, path: '/api/health', desc: 'JSON server status' },
     { title: 'Live Pacing Telemetry', url: `${activeBase}/api/telemetry`, path: '/api/telemetry', desc: 'Pacing engine & safety logs' },

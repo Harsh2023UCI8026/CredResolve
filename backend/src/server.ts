@@ -44,7 +44,11 @@ app.get('/api/health', (req, res) => {
 });
 
 app.get('/api/agents', async (req, res) => {
-  const agents = await dbStore.getAgents();
+  let agents = await dbStore.getAgents();
+  if (agents.length === 0) {
+    await ScenarioSimulationHarness.initializePool(25, 200);
+    agents = await dbStore.getAgents();
+  }
   res.json(agents);
 });
 
@@ -54,7 +58,11 @@ app.get('/api/calls', async (req, res) => {
 });
 
 app.get('/api/borrowers', async (req, res) => {
-  const borrowers = await dbStore.getBorrowers();
+  let borrowers = await dbStore.getBorrowers();
+  if (borrowers.length === 0) {
+    await ScenarioSimulationHarness.initializePool(25, 200);
+    borrowers = await dbStore.getBorrowers();
+  }
   res.json(borrowers);
 });
 
