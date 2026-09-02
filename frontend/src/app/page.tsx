@@ -209,48 +209,50 @@ export default function SmartDialerDashboard() {
         data-testid="nav-main"
         role="navigation" 
         aria-label="Main Application Header" 
-        className={`w-full px-4 lg:px-8 py-3 flex items-center justify-between sticky top-0 z-50 border-b transition-colors ${
+        className={`w-full px-3 sm:px-4 lg:px-8 py-3 flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 sticky top-0 z-50 border-b transition-colors ${
           isDark 
             ? 'bg-zinc-900/90 backdrop-blur-md border-zinc-800 shadow-lg shadow-black/40' 
             : 'bg-white/95 backdrop-blur-md border-slate-200 shadow-sm'
         }`}
       >
-        <div className="flex items-center space-x-3">
-          <div className={`p-2.5 rounded-xl border transition-colors ${
+        <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+          <div className={`p-2 sm:p-2.5 rounded-xl border transition-colors shrink-0 ${
             isDark 
               ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/50' 
               : 'bg-emerald-500 text-white border-emerald-600 shadow-md shadow-emerald-500/20'
           }`}>
-            <Phone className="w-5 h-5 animate-pulse" aria-hidden="true" />
+            <Phone className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" aria-hidden="true" />
           </div>
-          <div>
-            <h1 className="text-lg font-extrabold tracking-tight flex items-center gap-2">
-              SmartDialer <span className={`text-xs font-black px-2.5 py-0.5 rounded-full border ${
+          <div className="min-w-0">
+            <h1 className="text-base sm:text-lg font-extrabold tracking-tight flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span>SmartDialer</span> 
+              <span className={`text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full border whitespace-nowrap ${
                 isDark 
                   ? 'bg-emerald-950 text-emerald-300 border-emerald-800' 
                   : 'bg-emerald-100 text-emerald-800 border-emerald-400 shadow-xs'
               }`}>100% ACID</span>
             </h1>
-            <p className={`text-xs font-semibold ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+            <p className={`text-[10px] sm:text-xs font-semibold truncate ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
               Distributed Predictive Pacing &amp; Safety Controller Engine
             </p>
           </div>
         </div>
 
         {/* Right Header Controls */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2 sm:space-x-3 shrink-0 ml-auto sm:ml-0">
           <button
             onClick={() => setDevPortalOpen(true)}
             aria-label="Open Developer & API Hub Portal"
-            className={`touch-target px-3.5 py-2 rounded-xl text-xs font-extrabold flex items-center gap-2 border transition-all ${
+            className={`touch-target px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 sm:gap-2 border transition-all ${
               isDark 
                 ? 'bg-orange-950/80 hover:bg-orange-900 text-orange-300 border-orange-700/60 shadow-md shadow-orange-950/50' 
                 : 'bg-orange-600 hover:bg-orange-700 text-white border-orange-600 shadow-md shadow-orange-600/20'
             }`}
           >
-            <Code2 className="w-4 h-4 text-orange-200" />
+            <Code2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-200" />
             <span className="hidden sm:inline">API &amp; Docs Hub</span>
-            <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+            <span className="sm:hidden text-[11px]">API</span>
+            <ExternalLink className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-80" />
           </button>
 
           <div className="hidden lg:flex items-center space-x-2 text-xs">
@@ -277,19 +279,19 @@ export default function SmartDialerDashboard() {
             onClick={toggleTheme}
             aria-label={`Switch to ${isDark ? 'Light' : 'Dark'} mode`}
             title={`Switch to ${isDark ? 'Light' : 'Dark'} mode`}
-            className={`touch-target p-2.5 rounded-xl border flex items-center justify-center transition-all ${
+            className={`touch-target p-2 sm:p-2.5 rounded-xl border flex items-center justify-center transition-all ${
               isDark 
                 ? 'bg-zinc-800 hover:bg-zinc-700 text-amber-300 border-zinc-700 shadow-md' 
                 : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300 shadow-sm'
             }`}
           >
-            {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            {isDark ? <Sun className="w-4 h-4 sm:w-5 sm:h-5" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5" />}
           </button>
         </div>
       </nav>
 
       {/* Main Container */}
-      <main data-testid="main-content" className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 lg:p-8 space-y-6">
+      <main data-testid="main-content" className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6 lg:p-8 space-y-6">
 
         {/* Live Broadcast Region for Screen Readers */}
         <div aria-live="polite" className="sr-only">
@@ -300,80 +302,84 @@ export default function SmartDialerDashboard() {
         <section 
           aria-label="Engine Control Panel" 
           data-testid="control-panel" 
-          className={`rounded-2xl p-5 md:p-6 border transition-all ${
+          className={`rounded-2xl p-4 sm:p-5 md:p-6 border transition-all ${
             isDark 
               ? 'bg-zinc-900/90 border-zinc-800 shadow-xl shadow-black/30' 
               : 'bg-white border-slate-200 shadow-sm'
           } flex flex-col md:flex-row items-start md:items-center justify-between gap-4`}
         >
           <div className="space-y-1">
-            <h2 className={`text-lg font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              <Sliders className="w-5 h-5 text-orange-600" /> Operational Scenarios &amp; Simulation Control
+            <h2 className={`text-base sm:text-lg font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <Sliders className="w-5 h-5 text-orange-600 shrink-0" /> Operational Scenarios &amp; Simulation Control
             </h2>
             <p className={`text-xs font-medium ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
               Select operational profile to validate Poisson-Erlang Pacing &amp; Safety Firewall
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
-            {['A', 'B', 'C', 'D'].map((sc) => (
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full md:w-auto">
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
+              {['A', 'B', 'C', 'D'].map((sc) => (
+                <button
+                  key={sc}
+                  onClick={() => setSelectedScenario(sc)}
+                  aria-label={`Select Scenario ${sc}`}
+                  className={`touch-target px-3.5 py-2 rounded-xl text-xs font-bold transition-all border text-center ${
+                    selectedScenario === sc
+                      ? isDark
+                        ? 'bg-orange-600 text-white border-orange-500 shadow-lg shadow-orange-600/30'
+                        : 'bg-orange-600 text-white border-orange-600 shadow-md'
+                      : isDark
+                        ? 'bg-zinc-950 text-zinc-300 border-zinc-800 hover:bg-zinc-800'
+                        : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200'
+                  }`}
+                >
+                  Scenario {sc}
+                </button>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
+              {/* High Intensity Green Run Button */}
               <button
-                key={sc}
-                onClick={() => setSelectedScenario(sc)}
-                aria-label={`Select Scenario ${sc}`}
-                className={`touch-target px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
-                  selectedScenario === sc
-                    ? isDark
-                      ? 'bg-orange-600 text-white border-orange-500 shadow-lg shadow-orange-600/30'
-                      : 'bg-orange-600 text-white border-orange-600 shadow-md'
-                    : isDark
-                      ? 'bg-zinc-950 text-zinc-300 border-zinc-800 hover:bg-zinc-800'
-                      : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200'
+                onClick={() => handleRunSimulation(selectedScenario)}
+                disabled={simulationRunning}
+                aria-label="Run Benchmark Simulation"
+                className="touch-target bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/30 disabled:opacity-50 w-full sm:w-auto"
+              >
+                {simulationRunning ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 fill-current" />}
+                Run Scenario {selectedScenario}
+              </button>
+
+              {/* Shock Filter Trigger Button */}
+              <button
+                onClick={handleTriggerDropShock}
+                disabled={dropShockActive}
+                aria-label="Simulate 40% Mass Agent Drop Shock"
+                className={`touch-target px-3.5 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 border transition-all w-full sm:w-auto ${
+                  isDark 
+                    ? 'bg-red-950/60 hover:bg-red-900 text-red-300 border-red-800' 
+                    : 'bg-red-100 hover:bg-red-200 text-red-800 border-red-300'
                 }`}
               >
-                Scenario {sc}
+                <Zap className={`w-4 h-4 ${dropShockActive ? 'animate-bounce text-red-500' : ''}`} />
+                Simulate 40% Drop Shock
               </button>
-            ))}
 
-            {/* High Intensity Green Run Button */}
-            <button
-              onClick={() => handleRunSimulation(selectedScenario)}
-              disabled={simulationRunning}
-              aria-label="Run Benchmark Simulation"
-              className="touch-target bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white px-5 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/30 disabled:opacity-50"
-            >
-              {simulationRunning ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 fill-current" />}
-              Run Scenario {selectedScenario}
-            </button>
-
-            {/* Shock Filter Trigger Button */}
-            <button
-              onClick={handleTriggerDropShock}
-              disabled={dropShockActive}
-              aria-label="Simulate 40% Mass Agent Drop Shock"
-              className={`touch-target px-3.5 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-1.5 border transition-all ${
-                isDark 
-                  ? 'bg-red-950/60 hover:bg-red-900 text-red-300 border-red-800' 
-                  : 'bg-red-100 hover:bg-red-200 text-red-800 border-red-300'
-              }`}
-            >
-              <Zap className={`w-4 h-4 ${dropShockActive ? 'animate-bounce text-red-500' : ''}`} />
-              Simulate 40% Drop Shock
-            </button>
-
-            <button
-              onClick={handleTriggerDialer}
-              disabled={dialingActive}
-              aria-label="Trigger Manual Outbound Progressive Dial"
-              className={`touch-target px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center gap-2 border transition-all ${
-                isDark 
-                  ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border-zinc-700' 
-                  : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'
-              }`}
-            >
-              <Radio className={`w-4 h-4 text-emerald-600 ${dialingActive ? 'animate-ping' : ''}`} />
-              Trigger Outbound Dial
-            </button>
+              <button
+                onClick={handleTriggerDialer}
+                disabled={dialingActive}
+                aria-label="Trigger Manual Outbound Progressive Dial"
+                className={`touch-target px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 border transition-all w-full sm:w-auto ${
+                  isDark 
+                    ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border-zinc-700' 
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'
+                }`}
+              >
+                <Radio className={`w-4 h-4 text-emerald-600 ${dialingActive ? 'animate-ping' : ''}`} />
+                Trigger Outbound Dial
+              </button>
+            </div>
           </div>
         </section>
 
@@ -465,17 +471,17 @@ export default function SmartDialerDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           {/* Agent & Call Monotonic State Machine DAG */}
-          <article data-testid="dag-visualization" className={`lg:col-span-2 p-6 rounded-2xl border transition-all ${
+          <article data-testid="dag-visualization" className={`lg:col-span-2 p-4 sm:p-6 rounded-2xl border transition-all ${
             isDark ? 'bg-zinc-900/90 border-zinc-800 shadow-xl' : 'bg-white border-slate-200 shadow-sm'
           } space-y-4`}>
-            <div className={`flex items-center justify-between border-b pb-3 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
-              <h2 className={`text-base font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                <Activity className="w-5 h-5 text-orange-600" /> Monotonic State Machine Directed Acyclic Graph (DAG)
+            <div className={`flex flex-wrap items-center justify-between gap-2 border-b pb-3 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
+              <h2 className={`text-sm sm:text-base font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <Activity className="w-5 h-5 text-orange-600 shrink-0" /> Monotonic State Machine Directed Acyclic Graph (DAG)
               </h2>
-              <span className={`text-xs font-mono font-semibold ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>100% Rank Ordering &amp; Terminal Locks</span>
+              <span className={`text-[11px] sm:text-xs font-mono font-semibold ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>100% Rank Ordering &amp; Terminal Locks</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 py-4 text-center">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 sm:gap-3 py-2 sm:py-4 text-center">
               {[
                 { state: 'QUEUED', rank: 1, darkStyle: 'bg-zinc-800/80 border-zinc-700 text-zinc-300', lightStyle: 'bg-slate-100 border-slate-300 text-slate-800' },
                 { state: 'RESERVED', rank: 2, darkStyle: 'bg-amber-950/60 border-amber-800/60 text-amber-300', lightStyle: 'bg-amber-100 border-amber-400 text-amber-900 font-black' },
@@ -484,16 +490,16 @@ export default function SmartDialerDashboard() {
                 { state: 'CONNECTED', rank: 5, darkStyle: 'bg-emerald-950/60 border-emerald-800/60 text-emerald-300', lightStyle: 'bg-emerald-100 border-emerald-500 text-emerald-900 font-black shadow-xs' },
                 { state: 'COMPLETED', rank: 6, darkStyle: 'bg-orange-950/60 border-orange-800/60 text-orange-300', lightStyle: 'bg-orange-100 border-orange-400 text-orange-950 font-black' }
               ].map((node) => (
-                <div key={node.state} className={`p-3 rounded-xl border font-bold text-xs flex flex-col items-center space-y-1 ${
+                <div key={node.state} className={`p-2.5 sm:p-3 rounded-xl border font-bold text-xs flex flex-col items-center space-y-1 ${
                   isDark ? node.darkStyle : node.lightStyle
                 }`}>
                   <span className="text-[10px] opacity-80 font-mono">Rank {node.rank}</span>
-                  <span>{node.state}</span>
+                  <span className="truncate w-full text-center text-[11px] sm:text-xs">{node.state}</span>
                 </div>
               ))}
             </div>
 
-            <div className={`p-4 rounded-xl border space-y-2 ${
+            <div className={`p-3.5 sm:p-4 rounded-xl border space-y-2 ${
               isDark ? 'bg-zinc-950 border-zinc-800 text-zinc-300' : 'bg-slate-50 border-slate-200 text-slate-700'
             }`}>
               <h3 className="text-xs font-extrabold uppercase tracking-wide">Strict DAG Invariants:</h3>
@@ -506,12 +512,12 @@ export default function SmartDialerDashboard() {
           </article>
 
           {/* Safety Controller Firewall Audit Log */}
-          <article data-testid="safety-audit" className={`p-6 rounded-2xl border transition-all ${
+          <article data-testid="safety-audit" className={`p-4 sm:p-6 rounded-2xl border transition-all ${
             isDark ? 'bg-zinc-900/90 border-zinc-800 shadow-xl' : 'bg-white border-slate-200 shadow-sm'
           } flex flex-col space-y-3`}>
-            <div className={`flex items-center justify-between border-b pb-3 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
-              <h2 className={`text-base font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                <ShieldCheck className={`w-5 h-5 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} /> Safety Firewall Audit Log
+            <div className={`flex flex-wrap items-center justify-between gap-2 border-b pb-3 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
+              <h2 className={`text-sm sm:text-base font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <ShieldCheck className={`w-5 h-5 shrink-0 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} /> Safety Firewall Audit Log
               </h2>
               <span className={`text-xs px-2.5 py-0.5 rounded-full border font-bold ${
                 isDark ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-emerald-100 text-emerald-800 border-emerald-400'
@@ -548,34 +554,34 @@ export default function SmartDialerDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* Agent Pool Status Table */}
-          <article data-testid="agent-pool-table" className={`p-6 rounded-2xl border transition-all ${
+          <article data-testid="agent-pool-table" className={`p-4 sm:p-6 rounded-2xl border transition-all ${
             isDark ? 'bg-zinc-900/90 border-zinc-800 shadow-xl' : 'bg-white border-slate-200 shadow-sm'
           } space-y-4`}>
-            <div className={`flex items-center justify-between border-b pb-3 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
-              <h2 className={`text-base font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                <Users className="w-5 h-5 text-orange-600" /> Agent Pool &amp; Atomic Row Locks
+            <div className={`flex flex-wrap items-center justify-between gap-2 border-b pb-3 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
+              <h2 className={`text-sm sm:text-base font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <Users className="w-5 h-5 text-orange-600 shrink-0" /> Agent Pool &amp; Atomic Row Locks
               </h2>
-              <span className={`text-xs font-semibold ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>SELECT ... FOR UPDATE SKIP LOCKED</span>
+              <span className={`text-[11px] sm:text-xs font-semibold ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>SELECT ... FOR UPDATE SKIP LOCKED</span>
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className={`border-b ${isDark ? 'text-zinc-400 border-zinc-800 bg-zinc-950' : 'text-slate-600 border-slate-300 bg-slate-100 font-bold'}`}>
-                    <th className="p-3">Agent ID</th>
-                    <th className="p-3">Name</th>
-                    <th className="p-3">State</th>
-                    <th className="p-3">Call ID</th>
-                    <th className="p-3">Timezone</th>
+                    <th className="p-2 sm:p-3">Agent ID</th>
+                    <th className="p-2 sm:p-3">Name</th>
+                    <th className="p-2 sm:p-3">State</th>
+                    <th className="p-2 sm:p-3">Call ID</th>
+                    <th className="p-2 sm:p-3">Timezone</th>
                   </tr>
                 </thead>
                 <tbody className={`divide-y ${isDark ? 'divide-zinc-800' : 'divide-slate-200'}`}>
                   {agents.map((ag) => (
                     <tr key={ag.id} className={`transition-colors ${isDark ? 'hover:bg-zinc-800/40' : 'hover:bg-slate-50'}`}>
-                      <td className="p-3 font-mono font-bold">{ag.id}</td>
-                      <td className="p-3 font-medium">{ag.name}</td>
-                      <td className="p-3">
-                        <span className={`px-2.5 py-1 rounded-md font-black text-[11px] border ${
+                      <td className="p-2 sm:p-3 font-mono font-bold whitespace-nowrap">{ag.id}</td>
+                      <td className="p-2 sm:p-3 font-medium whitespace-nowrap">{ag.name}</td>
+                      <td className="p-2 sm:p-3">
+                        <span className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md font-black text-[10px] sm:text-[11px] border whitespace-nowrap inline-block ${
                           ag.state === 'AVAILABLE' 
                             ? isDark ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-emerald-100 text-emerald-800 border-emerald-400 shadow-xs'
                             : ag.state === 'CONNECTED' 
@@ -587,8 +593,8 @@ export default function SmartDialerDashboard() {
                           {ag.state}
                         </span>
                       </td>
-                      <td className={`p-3 font-mono ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>{ag.assigned_call_id || '-'}</td>
-                      <td className={`p-3 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>{ag.timezone}</td>
+                      <td className={`p-2 sm:p-3 font-mono whitespace-nowrap ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>{ag.assigned_call_id || '-'}</td>
+                      <td className={`p-2 sm:p-3 whitespace-nowrap ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>{ag.timezone}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -597,31 +603,31 @@ export default function SmartDialerDashboard() {
           </article>
 
           {/* Geo-Location Visual Map Canvas & Legal Dialing Hours */}
-          <article data-testid="geo-mapping" className={`p-6 rounded-2xl border transition-all ${
+          <article data-testid="geo-mapping" className={`p-4 sm:p-6 rounded-2xl border transition-all ${
             isDark ? 'bg-zinc-900/90 border-zinc-800 shadow-xl' : 'bg-white border-slate-200 shadow-sm'
           } space-y-4`}>
-            <div className={`flex items-center justify-between border-b pb-3 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
-              <h2 className={`text-base font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                <MapPin className={`w-5 h-5 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} /> Geo-Location &amp; Legal Dialing Compliance
+            <div className={`flex flex-wrap items-center justify-between gap-2 border-b pb-3 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
+              <h2 className={`text-sm sm:text-base font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <MapPin className={`w-5 h-5 shrink-0 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} /> Geo-Location &amp; Legal Dialing Compliance
               </h2>
-              <span className={`text-xs px-2.5 py-0.5 rounded-full border font-bold ${
+              <span className={`text-[11px] sm:text-xs px-2.5 py-0.5 rounded-full border font-bold ${
                 isDark ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-emerald-100 text-emerald-800 border-emerald-400'
               }`}>8 AM - 9 PM Enforcement</span>
             </div>
 
             {/* Interactive Visual Map SVG Canvas */}
-            <div className={`p-4 rounded-xl border relative overflow-hidden ${
+            <div className={`p-3 sm:p-4 rounded-xl border relative overflow-hidden space-y-3 ${
               isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-slate-100 border-slate-300'
             }`}>
-              <div className="flex items-center justify-between text-xs mb-3">
-                <span className={`font-bold ${isDark ? 'text-zinc-300' : 'text-slate-800'}`}>Agent Location Map &amp; Borrower Timezones:</span>
-                <span className="text-emerald-600 font-extrabold flex items-center gap-1">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                <span className={`font-bold text-xs sm:text-sm ${isDark ? 'text-zinc-300' : 'text-slate-800'}`}>Agent Location Map &amp; Borrower Timezones:</span>
+                <span className="text-emerald-600 font-extrabold flex items-center gap-1 shrink-0">
                   <CheckCircle2 className="w-3.5 h-3.5" /> 100% Compliant
                 </span>
               </div>
 
               {/* Geographic Visual Canvas */}
-              <div className={`h-40 w-full rounded-lg border relative flex items-center justify-center ${
+              <div className={`h-48 sm:h-44 w-full rounded-lg border relative flex items-center justify-center overflow-hidden ${
                 isDark ? 'bg-zinc-900/80 border-zinc-800' : 'bg-slate-200/80 border-slate-300'
               }`}>
                 {/* SVG USA Map Silhouette Background */}
@@ -630,24 +636,24 @@ export default function SmartDialerDashboard() {
                 </svg>
 
                 {/* Real-time Agent Location Pins on Map */}
-                <div className="absolute top-8 left-16 flex items-center space-x-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[10px] font-bold shadow-md">
-                  <MapPin className="w-3 h-3" /> <span>SF (8 Agents)</span>
+                <div className="absolute top-4 left-3 sm:top-8 sm:left-12 flex items-center space-x-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md z-10 whitespace-nowrap">
+                  <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" /> <span>SF (8)</span>
                 </div>
 
-                <div className="absolute top-10 right-20 flex items-center space-x-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[10px] font-bold shadow-md">
-                  <MapPin className="w-3 h-3" /> <span>NY (10 Agents)</span>
+                <div className="absolute top-4 right-3 sm:top-8 sm:right-10 flex items-center space-x-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md z-10 whitespace-nowrap">
+                  <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" /> <span>NY (10)</span>
                 </div>
 
-                <div className="absolute bottom-12 left-44 flex items-center space-x-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[10px] font-bold shadow-md">
-                  <MapPin className="w-3 h-3" /> <span>Denver (4 Agents)</span>
+                <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-24 flex items-center space-x-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md z-10 whitespace-nowrap">
+                  <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" /> <span>Denver (4)</span>
                 </div>
 
-                <div className="absolute top-20 left-60 flex items-center space-x-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[10px] font-bold shadow-md">
-                  <MapPin className="w-3 h-3" /> <span>Chicago (3 Agents)</span>
+                <div className="absolute top-20 right-4 sm:top-24 sm:right-28 flex items-center space-x-1 bg-emerald-600 text-white px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold shadow-md z-10 whitespace-nowrap">
+                  <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 shrink-0" /> <span>Chicago (3)</span>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 text-xs mt-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div className={`p-3 rounded-lg border space-y-1 ${
                   isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200 shadow-xs'
                 }`}>
@@ -656,7 +662,7 @@ export default function SmartDialerDashboard() {
                   <p className={`text-[10px] font-semibold ${isDark ? 'text-zinc-500' : 'text-slate-500'}`}>Legal Window: 8:00 AM - 9:00 PM</p>
                 </div>
                 <div className={`p-3 rounded-lg border space-y-1 ${
-                  isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200 shadow-xs'
+                  isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-slate-200/50 border-slate-200 shadow-xs'
                 }`}>
                   <p className="font-bold">America/New_York</p>
                   <p className={`font-mono font-black ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`}>Active (2:17 PM)</p>
