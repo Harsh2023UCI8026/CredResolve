@@ -245,25 +245,25 @@ export default function SmartDialerDashboard() {
         data-testid="nav-main"
         role="navigation" 
         aria-label="Main Application Header" 
-        className={`w-full px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4 sticky top-0 z-50 border-b transition-colors ${
+        className={`w-full px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-4 sticky top-0 z-50 border-b transition-colors ${
           isDark 
             ? 'bg-zinc-900/95 backdrop-blur-md border-zinc-800 shadow-lg shadow-black/40' 
             : 'bg-white/95 backdrop-blur-md border-slate-200 shadow-sm'
         }`}
       >
-        {/* Brand Container with Heading Text & Subtitle */}
-        <div className="flex items-center space-x-3 min-w-0">
-          <div className={`p-2.5 rounded-xl border transition-colors shrink-0 ${
+        {/* Brand Container with Heading Text & 100% ACID badge directly beside SmartDialer */}
+        <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+          <div className={`p-2 sm:p-2.5 rounded-xl border transition-colors shrink-0 ${
             isDark 
               ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/50' 
               : 'bg-emerald-500 text-white border-emerald-600 shadow-md shadow-emerald-500/20'
           }`}>
-            <Phone className="w-5 h-5 animate-pulse" aria-hidden="true" />
+            <Phone className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" aria-hidden="true" />
           </div>
 
           <div className="min-w-0 flex flex-col justify-center space-y-0.5">
             <div className="flex items-center gap-2">
-              <h1 className="text-lg sm:text-xl font-black tracking-tight leading-none text-slate-900 dark:text-white shrink-0">
+              <h1 className="text-base sm:text-xl font-black tracking-tight leading-none text-slate-900 dark:text-white shrink-0">
                 SmartDialer
               </h1>
               <span className={`text-[10px] sm:text-xs font-black px-2.5 py-0.5 rounded-full border whitespace-nowrap shrink-0 ${
@@ -274,39 +274,43 @@ export default function SmartDialerDashboard() {
                 100% ACID
               </span>
             </div>
-            <p className={`text-[11px] sm:text-xs font-semibold truncate ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+            <p className={`text-[11px] sm:text-xs font-semibold truncate ${isDark ? 'text-zinc-400' : 'text-slate-600'} hidden md:block`}>
               Distributed Predictive Pacing &amp; Safety Controller Engine
             </p>
           </div>
         </div>
 
-        {/* Right Header Action Buttons (Text + Icons with good spacing) */}
-        <div className="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-3 w-full sm:w-auto shrink-0">
+        {/* Right Header Action Buttons - Fixed non-overlapping mobile buttons */}
+        <div className="flex items-center space-x-1.5 sm:space-x-3 shrink-0">
           <button
             onClick={() => setGuideModalOpen(true)}
             aria-label="Open How it Works & User Guide"
-            className={`touch-target flex-1 sm:flex-initial px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 border transition-all ${
+            title="How it Works Guide"
+            className={`touch-target px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center gap-1 sm:gap-1.5 border transition-all ${
               isDark 
                 ? 'bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border-emerald-700/60 shadow-md' 
                 : 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 shadow-md shadow-emerald-600/20'
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-200 shrink-0" />
-            <span>How it Works?</span>
+            <span className="hidden sm:inline">How it Works?</span>
+            <span className="sm:hidden text-[11px]">Guide</span>
           </button>
 
           <button
             onClick={() => setDevPortalOpen(true)}
             aria-label="Open Developer & API Hub Portal"
-            className={`touch-target flex-1 sm:flex-initial px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 border transition-all ${
+            title="API & Docs Hub"
+            className={`touch-target px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center gap-1 sm:gap-1.5 border transition-all ${
               isDark 
                 ? 'bg-orange-950/80 hover:bg-orange-900 text-orange-300 border-orange-700/60 shadow-md shadow-orange-950/50' 
                 : 'bg-orange-600 hover:bg-orange-700 text-white border-orange-600 shadow-md shadow-orange-600/20'
             }`}
           >
             <Code2 className="w-3.5 h-3.5 text-orange-200 shrink-0" />
-            <span>API &amp; Docs</span>
-            <ExternalLink className="w-3 h-3 opacity-80 shrink-0" />
+            <span className="hidden sm:inline">API &amp; Docs</span>
+            <span className="sm:hidden text-[11px]">API</span>
+            <ExternalLink className="w-3 h-3 opacity-80 hidden sm:inline" />
           </button>
 
           <div className="hidden lg:flex items-center space-x-2 text-xs">
