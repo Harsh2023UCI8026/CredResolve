@@ -18,8 +18,6 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 let wss = null;
-// Seed default pool data on server startup
-scenarioHarness_1.ScenarioSimulationHarness.initializePool(25, 200).catch(console.error);
 function broadcastTelemetry() {
     if (!wss)
         return;
@@ -126,6 +124,7 @@ app.post('/api/dialer/trigger', async (req, res) => {
 });
 // Only listen on port & start background timers in non-Vercel environment
 if (!process.env.VERCEL) {
+    scenarioHarness_1.ScenarioSimulationHarness.initializePool(25, 200).catch(console.error);
     const server = (0, http_1.createServer)(app);
     wss = new ws_1.WebSocketServer({ server });
     setInterval(async () => {
