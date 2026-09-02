@@ -252,21 +252,21 @@ export default function SmartDialerDashboard() {
         }`}
       >
         {/* Brand Container */}
-        <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0 flex-1">
-          <div className={`p-2 sm:p-2.5 rounded-xl border transition-colors shrink-0 ${
+        <div className="flex items-center space-x-3 min-w-0">
+          <div className={`p-2.5 rounded-xl border transition-colors shrink-0 ${
             isDark 
               ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/50' 
               : 'bg-emerald-500 text-white border-emerald-600 shadow-md shadow-emerald-500/20'
           }`}>
-            <Phone className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" aria-hidden="true" />
+            <Phone className="w-5 h-5 animate-pulse" aria-hidden="true" />
           </div>
 
-          <div className="min-w-0 flex flex-col justify-center">
-            <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-              <h1 className="text-sm sm:text-lg font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white">
+          <div className="min-w-0 flex flex-col justify-center space-y-0.5">
+            <div className="flex items-center gap-2">
+              <h1 className="text-base sm:text-lg font-extrabold tracking-tight leading-none text-slate-900 dark:text-white shrink-0">
                 SmartDialer
               </h1>
-              <span className={`text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full border whitespace-nowrap ${
+              <span className={`text-[10px] sm:text-xs font-black px-2.5 py-0.5 rounded-full border whitespace-nowrap shrink-0 ${
                 isDark 
                   ? 'bg-emerald-950 text-emerald-300 border-emerald-800' 
                   : 'bg-emerald-100 text-emerald-800 border-emerald-400 shadow-xs'
@@ -274,7 +274,7 @@ export default function SmartDialerDashboard() {
                 100% ACID
               </span>
             </div>
-            <p className={`text-[9px] sm:text-xs font-semibold truncate leading-tight ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+            <p className={`text-[11px] sm:text-xs font-medium truncate ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
               Distributed Predictive Pacing &amp; Safety Controller Engine
             </p>
           </div>
