@@ -245,72 +245,84 @@ export default function SmartDialerDashboard() {
         data-testid="nav-main"
         role="navigation" 
         aria-label="Main Application Header" 
-        className={`w-full px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2 sm:gap-4 sticky top-0 z-50 border-b transition-colors ${
+        className={`w-full px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sticky top-0 z-50 border-b transition-colors ${
           isDark 
             ? 'bg-zinc-900/95 backdrop-blur-md border-zinc-800 shadow-lg shadow-black/40' 
             : 'bg-white/95 backdrop-blur-md border-slate-200 shadow-sm'
         }`}
       >
-        {/* Brand Container with Heading Text & 100% ACID badge directly beside SmartDialer */}
-        <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
-          <div className={`p-2 sm:p-2.5 rounded-xl border transition-colors shrink-0 ${
-            isDark 
-              ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/50' 
-              : 'bg-emerald-500 text-white border-emerald-600 shadow-md shadow-emerald-500/20'
-          }`}>
-            <Phone className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" aria-hidden="true" />
+        {/* Top Mobile Row / Left Desktop Row: Phone Logo, Title, Badge & Theme Toggle */}
+        <div className="flex items-center justify-between w-full sm:w-auto gap-2">
+          <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+            <div className={`p-2 sm:p-2.5 rounded-xl border transition-colors shrink-0 ${
+              isDark 
+                ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/50' 
+                : 'bg-emerald-500 text-white border-emerald-600 shadow-md shadow-emerald-500/20'
+            }`}>
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" aria-hidden="true" />
+            </div>
+
+            <div className="min-w-0 flex flex-col justify-center space-y-0.5">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <h1 className="text-base sm:text-lg font-black tracking-tight leading-none text-slate-900 dark:text-white shrink-0">
+                  SmartDialer
+                </h1>
+                <span className={`text-[9px] sm:text-xs font-black px-2 py-0.5 rounded-full border whitespace-nowrap shrink-0 ${
+                  isDark 
+                    ? 'bg-emerald-950 text-emerald-300 border-emerald-800' 
+                    : 'bg-emerald-100 text-emerald-800 border-emerald-400 shadow-xs'
+                }`}>
+                  100% ACID
+                </span>
+              </div>
+              <p className={`text-[10px] sm:text-xs font-semibold truncate ${isDark ? 'text-zinc-400' : 'text-slate-600'} hidden md:block`}>
+                Distributed Predictive Pacing &amp; Safety Controller Engine
+              </p>
+            </div>
           </div>
 
-          <div className="min-w-0 flex flex-col justify-center space-y-0.5">
-            <div className="flex items-center gap-2">
-              <h1 className="text-base sm:text-xl font-black tracking-tight leading-none text-slate-900 dark:text-white shrink-0">
-                SmartDialer
-              </h1>
-              <span className={`text-[10px] sm:text-xs font-black px-2.5 py-0.5 rounded-full border whitespace-nowrap shrink-0 ${
-                isDark 
-                  ? 'bg-emerald-950 text-emerald-300 border-emerald-800' 
-                  : 'bg-emerald-100 text-emerald-800 border-emerald-400 shadow-xs'
-              }`}>
-                100% ACID
-              </span>
-            </div>
-            <p className={`text-[11px] sm:text-xs font-semibold truncate ${isDark ? 'text-zinc-400' : 'text-slate-600'} hidden md:block`}>
-              Distributed Predictive Pacing &amp; Safety Controller Engine
-            </p>
-          </div>
+          {/* Theme Toggle on Top Right for Mobile */}
+          <button
+            onClick={toggleTheme}
+            aria-label={`Switch to ${isDark ? 'Light' : 'Dark'} mode`}
+            title={`Switch to ${isDark ? 'Light' : 'Dark'} mode`}
+            className={`touch-target p-2 rounded-xl border flex sm:hidden items-center justify-center transition-all shrink-0 ${
+              isDark 
+                ? 'bg-zinc-800 hover:bg-zinc-700 text-amber-300 border-zinc-700 shadow-md' 
+                : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300 shadow-sm'
+            }`}
+          >
+            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
         </div>
 
-        {/* Right Header Action Buttons - Fixed non-overlapping mobile buttons */}
-        <div className="flex items-center space-x-1.5 sm:space-x-3 shrink-0">
+        {/* Action Buttons Row: Full text labels 'How it Works?' & 'API & Docs Hub' with equal flex expansion and zero overlap */}
+        <div className="flex items-center justify-between sm:justify-end space-x-2 sm:space-x-3 w-full sm:w-auto shrink-0">
           <button
             onClick={() => setGuideModalOpen(true)}
             aria-label="Open How it Works & User Guide"
-            title="How it Works Guide"
-            className={`touch-target px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center gap-1 sm:gap-1.5 border transition-all ${
+            className={`touch-target flex-1 sm:flex-initial px-3 py-2 sm:px-3.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 border transition-all ${
               isDark 
                 ? 'bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border-emerald-700/60 shadow-md' 
                 : 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 shadow-md shadow-emerald-600/20'
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-200 shrink-0" />
-            <span className="hidden sm:inline">How it Works?</span>
-            <span className="sm:hidden text-[11px]">Guide</span>
+            <ShieldCheck className="w-4 h-4 text-emerald-200 shrink-0" />
+            <span className="whitespace-nowrap">How it Works?</span>
           </button>
 
           <button
             onClick={() => setDevPortalOpen(true)}
             aria-label="Open Developer & API Hub Portal"
-            title="API & Docs Hub"
-            className={`touch-target px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center gap-1 sm:gap-1.5 border transition-all ${
+            className={`touch-target flex-1 sm:flex-initial px-3 py-2 sm:px-3.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 border transition-all ${
               isDark 
                 ? 'bg-orange-950/80 hover:bg-orange-900 text-orange-300 border-orange-700/60 shadow-md shadow-orange-950/50' 
                 : 'bg-orange-600 hover:bg-orange-700 text-white border-orange-600 shadow-md shadow-orange-600/20'
             }`}
           >
-            <Code2 className="w-3.5 h-3.5 text-orange-200 shrink-0" />
-            <span className="hidden sm:inline">API &amp; Docs</span>
-            <span className="sm:hidden text-[11px]">API</span>
-            <ExternalLink className="w-3 h-3 opacity-80 hidden sm:inline" />
+            <Code2 className="w-4 h-4 text-orange-200 shrink-0" />
+            <span className="whitespace-nowrap">API &amp; Docs Hub</span>
+            <ExternalLink className="w-3.5 h-3.5 opacity-80 shrink-0 hidden sm:inline" />
           </button>
 
           <div className="hidden lg:flex items-center space-x-2 text-xs">
@@ -333,12 +345,12 @@ export default function SmartDialerDashboard() {
             </div>
           </div>
 
-          {/* Theme Toggle Button */}
+          {/* Desktop Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             aria-label={`Switch to ${isDark ? 'Light' : 'Dark'} mode`}
             title={`Switch to ${isDark ? 'Light' : 'Dark'} mode`}
-            className={`touch-target p-2 sm:p-2.5 rounded-xl border flex items-center justify-center transition-all shrink-0 ${
+            className={`touch-target p-2 sm:p-2.5 rounded-xl border hidden sm:flex items-center justify-center transition-all shrink-0 ${
               isDark 
                 ? 'bg-zinc-800 hover:bg-zinc-700 text-amber-300 border-zinc-700 shadow-md' 
                 : 'bg-amber-100 hover:bg-amber-200 text-amber-900 border-amber-300 shadow-sm'
