@@ -228,12 +228,15 @@ export default function SmartDialerDashboard() {
   const isDark = theme === 'dark';
 
   const apiBase = getApiBase();
+  const isVercelProd = typeof window !== 'undefined' && window.location.hostname.includes('vercel.app');
+  
+  // Clean working absolute links or relative serverless endpoints
   const apiLinks = [
-    { title: 'Server Health Status', url: `${apiBase}/api/health`, desc: 'JSON server status' },
-    { title: 'Live Pacing Telemetry', url: `${apiBase}/api/telemetry`, desc: 'Pacing engine & safety logs' },
-    { title: 'Agent Pool State', url: `${apiBase}/api/agents`, desc: 'Active agents & row lock versions' },
-    { title: 'Active Call Records', url: `${apiBase}/api/calls`, desc: 'Call state machine DAG' },
-    { title: 'Borrower Queue', url: `${apiBase}/api/borrowers`, desc: 'Borrowers & legal timezone status' },
+    { title: 'Server Health Status', url: isVercelProd ? '/api/health' : `${apiBase || ''}/api/health`, path: '/api/health', desc: 'JSON server status' },
+    { title: 'Live Pacing Telemetry', url: isVercelProd ? '/api/telemetry' : `${apiBase || ''}/api/telemetry`, path: '/api/telemetry', desc: 'Pacing engine & safety logs' },
+    { title: 'Agent Pool State', url: isVercelProd ? '/api/agents' : `${apiBase || ''}/api/agents`, path: '/api/agents', desc: 'Active agents & row lock versions' },
+    { title: 'Active Call Records', url: isVercelProd ? '/api/calls' : `${apiBase || ''}/api/calls`, path: '/api/calls', desc: 'Call state machine DAG' },
+    { title: 'Borrower Queue', url: isVercelProd ? '/api/borrowers' : `${apiBase || ''}/api/borrowers`, path: '/api/borrowers', desc: 'Borrowers & legal timezone status' },
   ];
 
   return (
@@ -851,16 +854,14 @@ export default function SmartDialerDashboard() {
             {/* Quick Launch API Links Grid */}
             <div className="space-y-3">
               <h3 className="text-xs font-extrabold uppercase tracking-wider text-orange-600 flex items-center gap-1.5">
-                <Code2 className="w-4 h-4" /> Live Backend API Endpoints {apiBase ? '(Local Port 4000)' : '(Production Cloud)'}
+                <Code2 className="w-4 h-4" /> Live Backend REST Endpoints &amp; Telemetry Data
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {apiLinks.map((link) => (
-                  <a
+                  <button
                     key={link.url}
-                    href={link.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`p-3 rounded-xl border flex items-center justify-between group transition-all ${
+                    onClick={() => window.open(link.url, '_blank')}
+                    className={`p-3 rounded-xl border flex items-center justify-between group transition-all text-left w-full ${
                       isDark 
                         ? 'bg-zinc-950 hover:bg-zinc-800/80 border-zinc-800 text-zinc-200' 
                         : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-800'
@@ -870,10 +871,10 @@ export default function SmartDialerDashboard() {
                       <p className="text-xs font-bold flex items-center gap-1 group-hover:text-orange-600 transition-colors">
                         {link.title} <ChevronRight className="w-3.5 h-3.5 opacity-50 group-hover:translate-x-0.5 transition-transform" />
                       </p>
-                      <p className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-400'}`}>{link.desc}</p>
+                      <p className={`text-[10px] ${isDark ? 'text-zinc-500' : 'text-slate-400'}`}>{link.desc} ({link.path})</p>
                     </div>
-                    <ExternalLink className="w-4 h-4 opacity-40 group-hover:opacity-100 text-orange-600" />
-                  </a>
+                    <ExternalLink className="w-4 h-4 opacity-40 group-hover:opacity-100 text-orange-600 shrink-0" />
+                  </button>
                 ))}
               </div>
             </div>
