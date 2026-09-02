@@ -4,8 +4,6 @@ backend/node_modules/
 frontend/node_modules/
 
 # Production & Build outputs
-dist/
-backend/dist/
 frontend/.next/
 frontend/out/
 

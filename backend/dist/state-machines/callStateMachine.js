@@ -1,0 +1,59 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CallStateMachine = exports.CallStateMachineError = void 0;
+const index_1 = require("../types/index");
+const store_1 = require("../db/store");
+class CallStateMachineError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'CallStateMachineError';
+    }
+}
+exports.CallStateMachineError = CallStateMachineError;
+class CallStateMachine {
+    /**
+     * Processes call state transition obeying:
+     * Rule 1: Dropping stale/duplicate events if incoming rank <= current rank.
+     * Rule 2: Terminal states (COMPLETED, FAILED, CANCELLED) are immutable locks.
+     * Rule 3: Auto-reconciliation of intermediate skipped states.
+     */
+    static async transition(callId, targetState, eventHash, errorMessage) {
+        // Webhook Deduplication check
+        if (eventHash && store_1.dbStore.isDuplicateEvent(eventHash)) {
+            return { call: await store_1.dbStore.getCall(callId), dropped: true, reason: 'Duplicate Event Hash' };
+        }
+        const call = await store_1.dbStore.getCall(callId);
+        if (!call) {
+            throw new CallStateMachineError(`Call ${callId} does not exist`);
+        }
+        // Rule 2: Terminal state immutability lock
+        if (index_1.TERMINAL_CALL_STATES.includes(call.state)) {
+            return {
+                call,
+                dropped: true,
+                reason: `Immutable Terminal State Lock (${call.state}) - cannot transition to ${targetState}`
+            };
+        }
+        const currentRank = call.state_rank;
+        const targetRank = index_1.CALL_STATE_RANKS[targetState];
+        // Rule 1: Incoming rank <= current rank -> drop duplicate or out-of-order event
+        if (targetRank <= currentRank && call.state !== targetState) {
+            return {
+                call,
+                dropped: true,
+                reason: `Out-of-order event: Target rank ${targetRank} (${targetState}) <= Current rank ${currentRank} (${call.state})`
+            };
+        }
+        // Rule 3: Auto-reconciliation of missing intermediate events
+        const updatedCall = {
+            ...call,
+            state: targetState,
+            state_rank: targetRank,
+            error_message: errorMessage || call.error_message,
+            updated_at: new Date()
+        };
+        await store_1.dbStore.saveCall(updatedCall);
+        return { call: updatedCall, dropped: false };
+    }
+}
+exports.CallStateMachine = CallStateMachine;
