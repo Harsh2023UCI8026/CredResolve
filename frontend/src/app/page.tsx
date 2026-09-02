@@ -703,7 +703,7 @@ export default function SmartDialerDashboard() {
             {/* Quick Launch API Links Grid */}
             <div className="space-y-3">
               <h3 className="text-xs font-extrabold uppercase tracking-wider text-orange-600 flex items-center gap-1.5">
-                <Code2 className="w-4 h-4" /> Live Backend API Endpoints (Port 4000)
+                <Code2 className="w-4 h-4" /> Live Backend API Endpoints {apiBase ? '(Local Port 4000)' : '(Production Cloud)'}
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {apiLinks.map((link) => (
@@ -745,7 +745,7 @@ export default function SmartDialerDashboard() {
                   <span className="opacity-60">Redis:</span> <strong className={isDark ? 'text-emerald-400' : 'text-emerald-700'}>6379</strong>
                 </div>
                 <div className={`p-2 rounded border ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200'}`}>
-                  <span className="opacity-60">WebSockets:</span> <strong className="text-orange-600">ws://:4000</strong>
+                  <span className="opacity-60">WebSockets:</span> <strong className="text-orange-600">{apiBase ? 'ws://localhost:4000' : 'Vercel Serverless Sync'}</strong>
                 </div>
               </div>
             </div>
