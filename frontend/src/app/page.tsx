@@ -77,7 +77,43 @@ export default function SmartDialerDashboard() {
   const [simResult, setSimResult] = useState<any>(null);
   const [dialingActive, setDialingActive] = useState(false);
   const [devPortalOpen, setDevPortalOpen] = useState(false);
+  const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [dropShockActive, setDropShockActive] = useState(false);
+
+  const scenarioDetails: Record<string, { title: string; desc: string; answerRate: string; handleTime: string; targetUtil: string; abandonLimit: string }> = {
+    A: {
+      title: 'Scenario A - Normal Everyday Traffic',
+      desc: 'Standard call center traffic. Moderate 20% answer rate with steady 120s handle time.',
+      answerRate: '20%',
+      handleTime: '120 sec',
+      targetUtil: '> 88%',
+      abandonLimit: '< 0.1%'
+    },
+    B: {
+      title: 'Scenario B - Peak Calling Hours',
+      desc: 'High customer pickup rate (50%) with fast 90s handle time. Tests rapid agent rotation.',
+      answerRate: '50%',
+      handleTime: '90 sec',
+      targetUtil: '> 92%',
+      abandonLimit: '< 0.3%'
+    },
+    C: {
+      title: 'Scenario C - High Volume Heavy Load',
+      desc: '70% pickup rate with longer 180s conversations. Maximizes agent capacity efficiency.',
+      answerRate: '70%',
+      handleTime: '180 sec',
+      targetUtil: '> 95%',
+      abandonLimit: '< 0.5%'
+    },
+    D: {
+      title: 'Scenario D - Dynamic Chaos & Network Jitter',
+      desc: 'Simulates unstable telecom networks with random delays (30s-300s) & 10%-80% fluctuating pickups.',
+      answerRate: '10% - 80%',
+      handleTime: '30s - 300s',
+      targetUtil: '> 85%',
+      abandonLimit: '< 0.5%'
+    }
+  };
 
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
@@ -247,6 +283,20 @@ export default function SmartDialerDashboard() {
         {/* Right Header Controls */}
         <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
           <button
+            onClick={() => setGuideModalOpen(true)}
+            aria-label="Open How it Works & User Guide"
+            className={`touch-target px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 sm:gap-2 border transition-all ${
+              isDark 
+                ? 'bg-emerald-950/80 hover:bg-emerald-900 text-emerald-300 border-emerald-700/60 shadow-md' 
+                : 'bg-emerald-600 hover:bg-emerald-700 text-white border-emerald-600 shadow-md shadow-emerald-600/20'
+            }`}
+          >
+            <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-200" />
+            <span className="hidden sm:inline">How it Works?</span>
+            <span className="sm:hidden text-[11px]">Guide</span>
+          </button>
+
+          <button
             onClick={() => setDevPortalOpen(true)}
             aria-label="Open Developer & API Hub Portal"
             className={`touch-target px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 sm:gap-2 border transition-all ${
@@ -299,6 +349,42 @@ export default function SmartDialerDashboard() {
       {/* Main Container */}
       <main data-testid="main-content" className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 md:p-6 lg:p-8 space-y-6">
 
+        {/* Easy English Project Overview Banner */}
+        <section className={`p-4 sm:p-5 rounded-2xl border transition-all ${
+          isDark 
+            ? 'bg-gradient-to-r from-zinc-900 via-zinc-900 to-emerald-950/40 border-zinc-800' 
+            : 'bg-gradient-to-r from-emerald-50/70 via-white to-orange-50/60 border-slate-200 shadow-xs'
+        }`}>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="space-y-1 max-w-3xl">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-emerald-600 text-white">
+                  What is SmartDialer?
+                </span>
+                <span className={`text-xs font-bold ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>
+                  Automated Call Center Engine
+                </span>
+              </div>
+              <h2 className={`text-base sm:text-lg font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                Smart Auto-Dialer for High Efficiency & Zero Dropped Calls
+              </h2>
+              <p className={`text-xs sm:text-sm font-medium leading-relaxed ${isDark ? 'text-zinc-300' : 'text-slate-600'}`}>
+                SmartDialer automatically calls borrowers for agents. It calculates agent availability in advance so agents never sit idle, while using a <strong>Safety Firewall</strong> to prevent customers from answering calls when no agents are free.
+              </p>
+            </div>
+            <button
+              onClick={() => setGuideModalOpen(true)}
+              className={`px-4 py-2 rounded-xl text-xs font-extrabold whitespace-nowrap shrink-0 border transition-all ${
+                isDark
+                  ? 'bg-zinc-800 hover:bg-zinc-700 text-emerald-400 border-zinc-700'
+                  : 'bg-white hover:bg-slate-50 text-emerald-800 border-emerald-300 shadow-xs'
+              }`}
+            >
+              Learn How to Test &rarr;
+            </button>
+          </div>
+        </section>
+
         {/* Live Broadcast Region for Screen Readers */}
         <div aria-live="polite" className="sr-only">
           Current Pacing: {telemetry?.pacing.suggestionMessage}. Available Agents: {telemetry?.stats.availableAgents}.
@@ -308,83 +394,118 @@ export default function SmartDialerDashboard() {
         <section 
           aria-label="Engine Control Panel" 
           data-testid="control-panel" 
-          className={`rounded-2xl p-4 sm:p-5 md:p-6 border transition-all ${
+          className={`rounded-2xl p-4 sm:p-5 md:p-6 border transition-all space-y-4 ${
             isDark 
               ? 'bg-zinc-900/90 border-zinc-800 shadow-xl shadow-black/30' 
               : 'bg-white border-slate-200 shadow-sm'
-          } flex flex-col md:flex-row items-start md:items-center justify-between gap-4`}
+          }`}
         >
-          <div className="space-y-1">
-            <h2 className={`text-base sm:text-lg font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              <Sliders className="w-5 h-5 text-orange-600 shrink-0" /> Operational Scenarios &amp; Simulation Control
-            </h2>
-            <p className={`text-xs font-medium ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-              Select operational profile to validate Poisson-Erlang Pacing &amp; Safety Firewall
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 w-full md:w-auto">
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
-              {['A', 'B', 'C', 'D'].map((sc) => (
-                <button
-                  key={sc}
-                  onClick={() => setSelectedScenario(sc)}
-                  aria-label={`Select Scenario ${sc}`}
-                  className={`touch-target px-3.5 py-2 rounded-xl text-xs font-bold transition-all border text-center ${
-                    selectedScenario === sc
-                      ? isDark
-                        ? 'bg-orange-600 text-white border-orange-500 shadow-lg shadow-orange-600/30'
-                        : 'bg-orange-600 text-white border-orange-600 shadow-md'
-                      : isDark
-                        ? 'bg-zinc-950 text-zinc-300 border-zinc-800 hover:bg-zinc-800'
-                        : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200'
-                  }`}
-                >
-                  Scenario {sc}
-                </button>
-              ))}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <h2 className={`text-base sm:text-lg font-extrabold flex items-center gap-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <Sliders className="w-5 h-5 text-orange-600 shrink-0" /> Operational Scenarios &amp; Simulation Control
+              </h2>
+              <p className={`text-xs font-medium ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+                Select a traffic profile below to test how the dialer handles different call center conditions:
+              </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
-              {/* High Intensity Green Run Button */}
-              <button
-                onClick={() => handleRunSimulation(selectedScenario)}
-                disabled={simulationRunning}
-                aria-label="Run Benchmark Simulation"
-                className="touch-target bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/30 disabled:opacity-50 w-full sm:w-auto"
-              >
-                {simulationRunning ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 fill-current" />}
-                Run Scenario {selectedScenario}
-              </button>
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 w-full md:w-auto">
+              <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full sm:w-auto">
+                {['A', 'B', 'C', 'D'].map((sc) => (
+                  <button
+                    key={sc}
+                    onClick={() => setSelectedScenario(sc)}
+                    aria-label={`Select Scenario ${sc}`}
+                    className={`touch-target px-3.5 py-2 rounded-xl text-xs font-bold transition-all border text-center ${
+                      selectedScenario === sc
+                        ? isDark
+                          ? 'bg-orange-600 text-white border-orange-500 shadow-lg shadow-orange-600/30'
+                          : 'bg-orange-600 text-white border-orange-600 shadow-md'
+                        : isDark
+                          ? 'bg-zinc-950 text-zinc-300 border-zinc-800 hover:bg-zinc-800'
+                          : 'bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200'
+                    }`}
+                  >
+                    Scenario {sc}
+                  </button>
+                ))}
+              </div>
 
-              {/* Shock Filter Trigger Button */}
-              <button
-                onClick={handleTriggerDropShock}
-                disabled={dropShockActive}
-                aria-label="Simulate 40% Mass Agent Drop Shock"
-                className={`touch-target px-3.5 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 border transition-all w-full sm:w-auto ${
-                  isDark 
-                    ? 'bg-red-950/60 hover:bg-red-900 text-red-300 border-red-800' 
-                    : 'bg-red-100 hover:bg-red-200 text-red-800 border-red-300'
-                }`}
-              >
-                <Zap className={`w-4 h-4 ${dropShockActive ? 'animate-bounce text-red-500' : ''}`} />
-                Simulate 40% Drop Shock
-              </button>
+              <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
+                {/* High Intensity Green Run Button */}
+                <button
+                  onClick={() => handleRunSimulation(selectedScenario)}
+                  disabled={simulationRunning}
+                  aria-label="Run Benchmark Simulation"
+                  className="touch-target bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all shadow-md shadow-emerald-600/30 disabled:opacity-50 w-full sm:w-auto"
+                >
+                  {simulationRunning ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 fill-current" />}
+                  Run Scenario {selectedScenario}
+                </button>
 
-              <button
-                onClick={handleTriggerDialer}
-                disabled={dialingActive}
-                aria-label="Trigger Manual Outbound Progressive Dial"
-                className={`touch-target px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 border transition-all w-full sm:w-auto ${
-                  isDark 
-                    ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border-zinc-700' 
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'
-                }`}
-              >
-                <Radio className={`w-4 h-4 text-emerald-600 ${dialingActive ? 'animate-ping' : ''}`} />
-                Trigger Outbound Dial
-              </button>
+                {/* Shock Filter Trigger Button */}
+                <button
+                  onClick={handleTriggerDropShock}
+                  disabled={dropShockActive}
+                  aria-label="Simulate 40% Mass Agent Drop Shock"
+                  className={`touch-target px-3.5 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 border transition-all w-full sm:w-auto ${
+                    isDark 
+                      ? 'bg-red-950/60 hover:bg-red-900 text-red-300 border-red-800' 
+                      : 'bg-red-100 hover:bg-red-200 text-red-800 border-red-300'
+                  }`}
+                >
+                  <Zap className={`w-4 h-4 ${dropShockActive ? 'animate-bounce text-red-500' : ''}`} />
+                  Simulate 40% Drop Shock
+                </button>
+
+                <button
+                  onClick={handleTriggerDialer}
+                  disabled={dialingActive}
+                  aria-label="Trigger Manual Outbound Progressive Dial"
+                  className={`touch-target px-4 py-2.5 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 border transition-all w-full sm:w-auto ${
+                    isDark 
+                      ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border-zinc-700' 
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'
+                  }`}
+                >
+                  <Radio className={`w-4 h-4 text-emerald-600 ${dialingActive ? 'animate-ping' : ''}`} />
+                  Trigger Outbound Dial
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Active Selected Scenario Easy Breakdown Box */}
+          <div className={`p-3.5 rounded-xl border transition-all text-xs ${
+            isDark ? 'bg-zinc-950/80 border-zinc-800' : 'bg-slate-50 border-slate-200'
+          }`}>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-2 mb-2 border-slate-200 dark:border-zinc-800">
+              <span className="font-extrabold text-sm text-orange-600">
+                {scenarioDetails[selectedScenario].title}
+              </span>
+              <span className="text-[11px] font-semibold opacity-80">
+                {scenarioDetails[selectedScenario].desc}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-[11px]">
+              <div className={`p-2 rounded-lg border ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200'}`}>
+                <span className="opacity-70 block">Answer Rate:</span>
+                <strong className="text-orange-600 font-bold">{scenarioDetails[selectedScenario].answerRate}</strong>
+              </div>
+              <div className={`p-2 rounded-lg border ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200'}`}>
+                <span className="opacity-70 block">Avg Handle Time:</span>
+                <strong className="text-emerald-600 font-bold">{scenarioDetails[selectedScenario].handleTime}</strong>
+              </div>
+              <div className={`p-2 rounded-lg border ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200'}`}>
+                <span className="opacity-70 block">Target Agent Utilization:</span>
+                <strong className="text-emerald-600 font-bold">{scenarioDetails[selectedScenario].targetUtil}</strong>
+              </div>
+              <div className={`p-2 rounded-lg border ${isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-slate-200'}`}>
+                <span className="opacity-70 block">Max Abandon Limit:</span>
+                <strong className="text-red-600 font-bold">{scenarioDetails[selectedScenario].abandonLimit}</strong>
+              </div>
             </div>
           </div>
         </section>
@@ -768,6 +889,103 @@ export default function SmartDialerDashboard() {
                 className="px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-xl text-xs font-bold transition-all shadow-md"
               >
                 Close Hub
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* How It Works & Easy User Guide Modal */}
+      {guideModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className={`w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border p-6 shadow-2xl relative space-y-5 ${
+            isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-100' : 'bg-white border-slate-200 text-slate-900'
+          }`}>
+            <div className={`flex items-center justify-between border-b pb-4 ${isDark ? 'border-zinc-800' : 'border-slate-200'}`}>
+              <div className="flex items-center space-x-3">
+                <div className="p-2.5 bg-emerald-500/10 text-emerald-600 rounded-xl border border-emerald-500/20">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-extrabold">How SmartDialer Works (User Guide)</h2>
+                  <p className={`text-xs ${isDark ? 'text-zinc-400' : 'text-slate-500'}`}>
+                    Simple 4-step explanation of what this application does &amp; how to test it
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setGuideModalOpen(false)}
+                className={`p-2 rounded-xl border transition-colors ${
+                  isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-400 border-zinc-700' : 'bg-slate-100 hover:bg-slate-200 text-slate-600 border-slate-300'
+                }`}
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Step-by-Step Easy English Cards */}
+            <div className="space-y-3 text-xs">
+              <div className={`p-4 rounded-xl border space-y-1.5 ${
+                isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-slate-50 border-slate-200'
+              }`}>
+                <h3 className="font-extrabold text-sm text-emerald-600 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">1</span>
+                  What is a Smart Dialer?
+                </h3>
+                <p className="opacity-90 leading-relaxed font-medium">
+                  In large call centers, agents waste time waiting for customers to pick up the phone. A SmartDialer automatically dials numbers in advance so when a customer answers, an agent is instantly connected!
+                </p>
+              </div>
+
+              <div className={`p-4 rounded-xl border space-y-1.5 ${
+                isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-slate-50 border-slate-200'
+              }`}>
+                <h3 className="font-extrabold text-sm text-orange-600 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-orange-600 text-white flex items-center justify-center text-xs">2</span>
+                  What do Scenarios (A, B, C, D) mean?
+                </h3>
+                <p className="opacity-90 leading-relaxed font-medium">
+                  Scenarios let you test different call center traffic conditions:
+                </p>
+                <ul className="list-disc list-inside space-y-1 font-semibold opacity-90 pl-2">
+                  <li><strong>Scenario A:</strong> Normal traffic (20% customers answer calls).</li>
+                  <li><strong>Scenario B:</strong> Peak hours (50% customers answer calls).</li>
+                  <li><strong>Scenario C:</strong> High volume (70% answer, longer 3-minute calls).</li>
+                  <li><strong>Scenario D:</strong> Unstable network chaos (random network delays &amp; fluctuating answer rates).</li>
+                </ul>
+              </div>
+
+              <div className={`p-4 rounded-xl border space-y-1.5 ${
+                isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-slate-50 border-slate-200'
+              }`}>
+                <h3 className="font-extrabold text-sm text-emerald-600 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">3</span>
+                  How to test the Live Simulation?
+                </h3>
+                <p className="opacity-90 leading-relaxed font-medium">
+                  Select any scenario button (`Scenario A`, `B`, `C`, or `D`) and click the green <strong className="text-emerald-600">Run Scenario</strong> button. Watch the <strong>Predictive Suggestion</strong> card automatically adjust how many calls it requests!
+                </p>
+              </div>
+
+              <div className={`p-4 rounded-xl border space-y-1.5 ${
+                isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-slate-50 border-slate-200'
+              }`}>
+                <h3 className="font-extrabold text-sm text-red-600 flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center text-xs">4</span>
+                  What happens in "Simulate 40% Drop Shock"?
+                </h3>
+                <p className="opacity-90 leading-relaxed font-medium">
+                  Click the red <strong>Simulate 40% Drop Shock</strong> button. This tests emergency safety! If 40% of agents suddenly log off, the <strong>Safety Firewall Audit Log</strong> instantly freezes predictive dialing to stop customer calls from being dropped with no agent to take them.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={() => setGuideModalOpen(false)}
+                className="px-5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition-all shadow-md"
+              >
+                Got It! Close Guide
               </button>
             </div>
           </div>
