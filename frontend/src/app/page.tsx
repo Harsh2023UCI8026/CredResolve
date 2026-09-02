@@ -70,8 +70,20 @@ interface AgentInfo {
 
 export default function SmartDialerDashboard() {
   const [theme, setTheme] = useState<'dark' | 'light'>('light');
-  const [telemetry, setTelemetry] = useState<TelemetryData | null>(null);
-  const [agents, setAgents] = useState<AgentInfo[]>([]);
+  const [telemetry, setTelemetry] = useState<TelemetryData>({
+    pacing: { targetCalls: 12, expectedAvailability: 15.4, suggestionMessage: 'Requesting 12 calls' },
+    stats: { totalAgents: 25, availableAgents: 14, connectedAgents: 8, totalCalls: 120, completedCalls: 98, failedCalls: 4, activeCalls: 18 },
+    circuitBreakers: { providerA: 'CLOSED', providerB: 'CLOSED' },
+    safetyLogs: [
+      { timestamp: new Date().toISOString(), requestedCalls: 12, approvedCalls: 12, mode: 'PREDICTIVE', reason: 'Passed Safety Firewall. Approved 12 calls.', abandonmentRate: 0.001, providerErrorRate: 0.01, providerLatency: 140, agentDropDetected: false }
+    ]
+  });
+  const [agents, setAgents] = useState<AgentInfo[]>([
+    { id: 'ag-1', name: 'Agent 1', state: 'AVAILABLE', assigned_call_id: null, timezone: 'America/Los_Angeles', geo_lat: 37.7749, geo_lng: -122.4194 },
+    { id: 'ag-2', name: 'Agent 2', state: 'CONNECTED', assigned_call_id: 'call-901', timezone: 'America/New_York', geo_lat: 40.7128, geo_lng: -74.0060 },
+    { id: 'ag-3', name: 'Agent 3', state: 'WRAP_UP', assigned_call_id: 'call-902', timezone: 'America/Chicago', geo_lat: 41.8781, geo_lng: -87.6298 },
+    { id: 'ag-4', name: 'Agent 4', state: 'AVAILABLE', assigned_call_id: null, timezone: 'America/Denver', geo_lat: 39.7392, geo_lng: -104.9903 }
+  ]);
   const [selectedScenario, setSelectedScenario] = useState<string>('A');
   const [simulationRunning, setSimulationRunning] = useState(false);
   const [simResult, setSimResult] = useState<any>(null);
@@ -712,12 +724,12 @@ export default function SmartDialerDashboard() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className={`border-b ${isDark ? 'text-zinc-400 border-zinc-800 bg-zinc-950' : 'text-slate-600 border-slate-300 bg-slate-100 font-bold'}`}>
-                    <th className="p-2 sm:p-3">Agent ID</th>
-                    <th className="p-2 sm:p-3">Name</th>
-                    <th className="p-2 sm:p-3">State</th>
-                    <th className="p-2 sm:p-3">Call ID</th>
-                    <th className="p-2 sm:p-3">Timezone</th>
+                  <tr className={`border-b ${isDark ? 'text-zinc-200 border-zinc-800 bg-zinc-950 font-bold' : 'text-slate-900 border-slate-300 bg-slate-100 font-extrabold'}`}>
+                    <th scope="col" className="p-2 sm:p-3">Agent ID</th>
+                    <th scope="col" className="p-2 sm:p-3">Name</th>
+                    <th scope="col" className="p-2 sm:p-3">State</th>
+                    <th scope="col" className="p-2 sm:p-3">Call ID</th>
+                    <th scope="col" className="p-2 sm:p-3">Timezone</th>
                   </tr>
                 </thead>
                 <tbody className={`divide-y ${isDark ? 'divide-zinc-800' : 'divide-slate-200'}`}>
